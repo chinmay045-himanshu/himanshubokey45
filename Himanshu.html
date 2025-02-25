@@ -1,0 +1,97 @@
+himanshu-portfolio/
+│── public/ (for images, icons)
+│── components/ (Header, Hero, About, Projects, Contact)
+│── pages/
+│   │── index.js (Main homepage)
+│   │── _app.js (Global styles)
+│   │── api/contact.js (Contact form handler)
+│── styles/ (Tailwind CSS)
+│── next.config.js (SEO & domain settings)
+│── package.json (Dependencies)
+
+
+
+npx create-next-app@latest himanshu-portfolio
+cd himanshu-portfolio
+npm install tailwindcss framer-motion three @react-three/fiber @react-three/drei
+
+
+npx tailwindcss init -p
+
+module.exports = {
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        dark: "#121212",
+        primary: "#00bcd4",
+      },
+    },
+  },
+  plugins: [],
+};
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-dark text-white;
+}
+
+
+import Head from "next/head";
+import { motion } from "framer-motion";
+import Hero from "../components/Hero";
+import About from "../components/About";
+import Projects from "../components/Projects";
+import Contact from "../components/Contact";
+
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>Himanshu Bokey | Portfolio</title>
+      </Head>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <Hero />
+        <About />
+        <Projects />
+        <Contact />
+      </motion.div>
+    </>
+  );
+}
+
+import { motion } from "framer-motion";
+
+export default function Hero() {
+  return (
+    <div className="h-screen flex flex-col justify-center items-center text-center">
+      <motion.h1 className="text-5xl font-bold" initial={{ y: -100 }} animate={{ y: 0 }}>
+        Hi, I'm Himanshu Bokey
+      </motion.h1>
+      <motion.p className="text-lg mt-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        Crafting Ideas, Building Solutions – One Pixel at a Time.
+      </motion.p>
+    </div>
+  );
+}
+
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+
+export default function ThreeScene() {
+  return (
+    <Canvas>
+      <OrbitControls />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[2, 2, 2]} />
+      <mesh>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshStandardMaterial color="cyan" />
+      </mesh>
+    </Canvas>
+  );
+}
